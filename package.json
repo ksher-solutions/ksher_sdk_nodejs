@@ -1,0 +1,30 @@
+{
+  "name": "ksher",
+  "version": "1.0.0",
+  "description": "Ksher Node.js Library at http://api.ksher.net",
+  "main": "index.js",
+  "directories": {
+    "test": "jest"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ksher-solutions/ksher_sdk_nodejs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ksher-solutions/ksher_sdk_nodejs/issues"
+  },
+  "homepage": "https://github.com/ksher-solutions/ksher_sdk_nodejs#readme",
+  " ": {
+    "axios": "^1.3.4",
+    "crypto": "^1.0.1"
+  },
+  "dependencies": {
+    "jest": "^29.5.0",
+    "qs": "^6.11.1"
+  }
+}
