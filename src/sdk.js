@@ -2,6 +2,7 @@ const fs = require("fs");
 const crypto = require("crypto");
 const axios = require("axios");
 const qs = require("qs");
+const path = require('path');
 const Unity = require("./unity");
 
 class KsherPay {
@@ -12,7 +13,7 @@ class KsherPay {
   privateKey = "";
   publicKey = "";
 
-  constructor(appid, privatekeyPath = "", publicKeyPath = "./src/ksher_pubkey.pem") {
+  constructor(appid, privatekeyPath = "", publicKeyPath = path.join(__dirname, '/ksher_pubkey.pem')) {
     this.appid = appid;
     this.privateKey = fs.readFileSync(privatekeyPath);
     this.publicKey = fs.readFileSync(publicKeyPath);

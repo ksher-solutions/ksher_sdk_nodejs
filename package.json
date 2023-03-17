@@ -1,9 +1,10 @@
 {
   "name": "@kshersolution/ksher",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Ksher Node.js Library at http://api.ksher.net",
-  "main": "index.js",
+  "main": "src/sdk.js",
   "directories": {
+    "src": "src",
     "test": "test"
   },
   "scripts": {
