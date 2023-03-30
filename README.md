@@ -1,34 +1,59 @@
  
 # Ksher SDK nodejs
+[![Node.js Package](https://github.com/ksher-solutions/ksher_sdk_nodejs/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/ksher-solutions/ksher_sdk_nodejs/actions/workflows/npm-publish.yml)
+[![Version](https://img.shields.io/npm/v/@kshersolution/ksher)](https://www.npmjs.com/package/@kshersolution/ksher)
 
-SDK for nodejs
+Ksher payment SDK for NodeJs. Please check document at http://api.ksher.net
 
-## install SDK
+Another SDK please check at
 
- ```
- npm install
- ```
+Java (https://github.com/ksher-api/ksher-sdk/tree/master/java)
+
+Python (https://github.com/ksher-api/ksher-sdk/tree/master/python)
+    
+Go (https://github.com/ksher-api/ksher-sdk/tree/master/go)
+
+PHP (https://github.com/ksher-api/ksher-sdk/tree/master/php)
+
+## How to install SDK
+
+Install nodejs on you computer.
+
+Check your nodejs working with your computer by using
+
+```
+node -v
+```
+
+Install ksher SDK by 
+
+```
+npm install @kshersolution/ksher
+```
+or clone from
+
+```
+git clone https://github.com/ksher-solutions/ksher_sdk_nodejs
+```
 
 ## using SDK
 
+Initial data to call
+
 ```
-const KsherPay = require('ksher_sdk_nodejs');
-const appid = "mch35000";
-const path = "/Users/example/ksher_sdk_nodejs/Mch35000_PrivateKey.pem";
+const appid = "mch35000";  // setup your appid at here
+const path = "/Users/example/ksher_sdk_nodejs/Mch35000_PrivateKey.pem"; // setup your private key path at here
+
+const KsherPay = require('@kshersolution/ksher');
 const sdk = new KsherPay(appid, path)
 ```
 
-## redirect
+## Website
 
 Please see http://api.ksher.net/KsherAPI/dev/apis/website.html for more information.
 
+### create website request
 ```
-const KsherPay = require('ksher_sdk_nodejs');
-
-const appid = "mch35000";
-const path = "/Users/example/ksher_sdk_nodejs/Mch35000_PrivateKey.pem";
-
-const sdk = new KsherPay(appid, path)
 const mch_order_no = Date.now().toString();
 const gateway_payRequestData = {   
   "mch_order_no": mch_order_no,
@@ -47,5 +72,62 @@ await sdk.gateway_pay(gateway_payRequestData)
   .then(response => {
     console.log("body: ",response);
   });
+.catch(error => {
+    console.log(error);
+  });
+```
+### query status
 
+```
+const mch_order_no = "your create mch_order_no";
+const gateway_order_queryData = {   
+  "mch_order_no": mch_order_no
+};
+
+await sdk.gateway_order_query(gateway_order_queryData)
+  .then(response => {
+    console.log("body: ",response);
+});
+.catch(error => {
+  console.log(error);
+});
+```
+
+## C scan B
+
+### Create Dynamic QR
+Please see http://api.ksher.net/KsherAPI/dev/apis/kiosk_c_scan_b.html for more information.
+```
+const mch_order_no = Date.now().toString();
+const native_payRequestData = {
+      mch_order_no: mch_order_no,
+      total_fee: "100",
+      fee_type:"THB",
+      channel: "promptpay"
+  };
+
+await sdk.native_pay(native_payRequestData)
+.then(response => {
+  console.log("body: ",response);
+});
+.catch(error => {
+  console.log(error);
+});
+```
+
+### query status
+
+```
+const mch_order_no = "your create mch_order_no";
+const native_payQueryData = {
+    mch_order_no: "2023-02-19-17-34-00",
+  };
+
+await sdk.order_query(native_payQueryData)
+.then(response => {
+  console.log("body: ",response);
+});
+.catch(error => {
+  console.log(error);
+});
 ```
