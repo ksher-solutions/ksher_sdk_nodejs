@@ -25,18 +25,18 @@ Install nodejs on you computer.
 
 Check your nodejs working with your computer by using
 
-```
+```shell
 node -v
 ```
 
 Install ksher SDK by 
 
-```
+```shell
 npm install @kshersolution/ksher
 ```
 or clone from
 
-```
+```shell
 git clone https://github.com/ksher-solutions/ksher_sdk_nodejs
 ```
 
@@ -44,7 +44,7 @@ git clone https://github.com/ksher-solutions/ksher_sdk_nodejs
 
 Initial data to call
 
-```
+```nodejs
 const appid = "mch35000";  // setup your appid at here
 const path = "/Users/example/ksher_sdk_nodejs/Mch35000_PrivateKey.pem"; // setup your private key path at here
 
@@ -57,7 +57,7 @@ const sdk = new KsherPay(appid, path)
 Please see http://api.ksher.net/KsherAPI/dev/apis/website.html for more information.
 
 ### create website request
-```
+```nodejs
 const mch_order_no = Date.now().toString();
 const gateway_payRequestData = {   
   "mch_order_no": mch_order_no,
@@ -82,7 +82,7 @@ await sdk.gateway_pay(gateway_payRequestData)
 ```
 ### query status
 
-```
+```nodejs
 const mch_order_no = "your create mch_order_no";
 const gateway_order_queryData = {   
   "mch_order_no": mch_order_no
@@ -101,7 +101,7 @@ await sdk.gateway_order_query(gateway_order_queryData)
 
 ### Create Dynamic QR
 Please see http://api.ksher.net/KsherAPI/dev/apis/kiosk_c_scan_b.html for more information.
-```
+```nodejs
 const mch_order_no = Date.now().toString();
 const native_payRequestData = {
       mch_order_no: mch_order_no,
@@ -121,7 +121,7 @@ await sdk.native_pay(native_payRequestData)
 
 ### query status
 
-```
+```nodejs
 const mch_order_no = "your create mch_order_no";
 const native_payQueryData = {
     mch_order_no: "2023-02-19-17-34-00",
