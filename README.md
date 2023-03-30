@@ -7,13 +7,17 @@ Ksher payment SDK for NodeJs. Please check document at http://api.ksher.net
 
 Another SDK please check at
 
-Java (https://github.com/ksher-api/ksher-sdk/tree/master/java)
+Java: https://github.com/ksher-api/ksher-sdk/tree/master/java
 
-Python (https://github.com/ksher-api/ksher-sdk/tree/master/python)
-    
-Go (https://github.com/ksher-api/ksher-sdk/tree/master/go)
+Python: https://github.com/ksher-solutions/ksher_sdk_python
 
-PHP (https://github.com/ksher-api/ksher-sdk/tree/master/php)
+Go: https://github.com/ksher-api/ksher-sdk/tree/master/go
+
+PHP: https://github.com/ksher-api/ksher-sdk/tree/master/php
+
+Netcore: https://github.com/ksher-api/ksher-sdk/tree/master/netcore
+
+NodeJs: https://github.com/ksher-solutions/ksher_sdk_nodejs
 
 ## How to install SDK
 
