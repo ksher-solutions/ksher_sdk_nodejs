@@ -33,4 +33,23 @@ describe("Unity", () => {
     const text_make_sign = Unity.convertData2Str(exampleGatewayCreateData);
     expect(text_make_sign).toEqual(exampleGatewayCreate_textVerify);
   });
+
+  test("isPrivateKeyPEMFormat", () => {
+    path = '/ksher_pubkey.pem';
+    const pathFormat = Unity.isPrivateKeyPEMFormat(path);
+    expect(pathFormat).toEqual(false);
+
+    privatekey = `-----BEGIN RSA PRIVATE KEY-----
+MIIBOgIBAAJBAMhFg7PoOgSvUWzfTv4xerdNRc0lZMGTh71dV3g0d4GEO88tOlph
+LTPVnBGVvpvFvhYDgDQqWtGIm8NIHopQDJsCAwEAAQJADYmVY33ZHiPzrxZRMqGJ
+mAZjJ4DVlLgyPrymgvuY8GovDisXC/4Oo2JCwGJLJEiYWvWJqkLIMnMfF9Mj6pEx
+oQIhAPxbrlTCZsoxIXoftfA79EoXpPyJnQ26C4dcbkxQOAWZAiEAyylnP8uxMOIP
+MsgXT1LF+WTGfw4JZyQCmJDKlIbFnFMCIHU6caVWGUHbyN1eVbofX7/7c90MYDS8
+NBbRTTuOGDghAiEAoN2u4Kf0LOXC7Q3czzWWhyxRtEc0ENRFrfJwRf0VOfsCIFwg
+IATE8U+GHPfygz0oBJwLfPaOAIdxup1x38UswEl/
+-----END RSA PRIVATE KEY-----`;
+  // this private key is example private key format cannot real use in system
+    const privateKeyPEMFormat = Unity.isPrivateKeyPEMFormat(privatekey);
+    expect(privateKeyPEMFormat).toEqual(true);
+  });
 });

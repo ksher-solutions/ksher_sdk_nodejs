@@ -28,6 +28,16 @@ class Unity {
         // console.log("string make signature: ", keyvalue)
     return keyvalue;
     }
+    
+    static isPrivateKeyPEMFormat(encryptedText) {
+      try {
+        const privateKey = crypto.createPrivateKey(encryptedText);
+        return privateKey.asymmetricKeyType === 'rsa';
+      } catch (error) {
+        return false;
+      }
+    }
+
 }
 
 module.exports = Unity

@@ -4,6 +4,7 @@ const axios = require("axios");
 const qs = require("qs");
 const path = require('path');
 const Unity = require("./unity");
+const { error } = require("console");
 
 class KsherPay {
   DOMAIN = "https://api.mch.ksher.net/KsherPay";
@@ -15,7 +16,14 @@ class KsherPay {
 
   constructor(appid, privatekeyPath = "", publicKeyPath = path.join(__dirname, '/ksher_pubkey.pem')) {
     this.appid = appid;
-    this.privateKey = fs.readFileSync(privatekeyPath);
+
+    if (Unity.isPrivateKeyPEMFormat(privatekeyPath)){
+      this.privateKey = privatekeyPath;
+    }
+    else {
+      this.privateKey = fs.readFileSync(privatekeyPath);
+    }
+    
     this.publicKey = fs.readFileSync(publicKeyPath);
   }
 
