@@ -40,8 +40,25 @@ class KsherPay {
     // console.log(signature);
     return signature;
   }
+  
   verifySignature(data) {
-    const message = Unity.convertData2Str(data.data);
+    var message = "";
+    if (("mobile" in data.data) && ("mch_id" in data.data) && ("account_type" in data.data) && ("business_mode" in data.data) && ("nonce_str" in data.data) ){
+      var merchant_info_verify_message = {
+        "mobile": data.data.mobile,
+        "mch_id": data.data.mch_id,
+        "account_type": data.data.account_type,
+        "business_mode": data.data.business_mode,
+        "nonce_str": data.data.nonce_str
+        };
+      // console.log(merchant_info_verify_message);
+       message = Unity.convertData2Str(merchant_info_verify_message);
+    }
+    else {
+      message = Unity.convertData2Str(data.data);
+    }
+
+    
     const signature = data.sign;
     // console.log("verifySignature: ",signature)
     const verifier = crypto.createVerify("RSA-MD5");
@@ -88,10 +105,10 @@ class KsherPay {
     // console.log("response.statusText: ", response.statusText);
     // console.log("response.headers: ", response.headers);
     // console.log("response.config: ", response.config);
-    // const jsonData = JSON.stringify(response.data);
+    const jsonData = JSON.stringify(response.data);
     if (response.data.code == 0) {
       if (this.verifySignature(response.data) == false) {
-        response = {
+        return {
           code: 0,
           data: {
             err_code: "VERIFY_KSHER_SIGN_FAIL",
@@ -102,10 +119,9 @@ class KsherPay {
           sign: "",
           status_code: "",
           status_msg: "",
-          time_stamp: self.__time_stamp,
-          version: self.version,
+          time_stamp: "",
+          version: "",
         };
-        return response;
       }
     }
     return response.data;
@@ -223,12 +239,6 @@ class KsherPay {
     const resp = this.ksherRequest(url, "POST", data);
     return resp;
   }
-  get_order_status_for_bbl(data) {
-    const url = this.DOMAIN + "/get_order_status_for_bbl";
-    const resp = this.ksherRequest(url, "POST", data);
-    return resp;
-  }
-  
-  
+
 }
 module.exports = KsherPay;
