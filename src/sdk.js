@@ -61,6 +61,7 @@ class KsherPay {
     
     const signature = data.sign;
     // console.log("verifySignature: ",signature)
+    // console.log("text make sign: ",message)
     const verifier = crypto.createVerify("RSA-MD5");
     verifier.write(message);
     verifier.end();
@@ -123,7 +124,7 @@ class KsherPay {
           version: "",
         };
       }
-    }
+    } 
     return response.data;
   }
   gateway_pay(data) {
@@ -134,6 +135,10 @@ class KsherPay {
 
   gateway_order_query(data) {
     const url = this.GATEWAY_DOMAIN + "/gateway_order_query";
+    // remove operator_id from query not support this param
+    if (("operator_id" in data)){
+      delete data.operator_id;
+    }
     const resp = this.ksherRequest(url, "POST", data);
     return resp;
   }
@@ -150,6 +155,12 @@ class KsherPay {
     return resp;
   }
 
+  order_reverse(data) {
+    const url = this.DOMAIN + "/order_reverse";
+    const resp = this.ksherRequest(url, "POST", data);
+    return resp;
+  }
+
   native_pay(data) {
     const url = this.DOMAIN + "/native_pay";
     const resp = this.ksherRequest(url, "POST", data);
@@ -158,6 +169,10 @@ class KsherPay {
 
   order_query(data) {
     const url = this.DOMAIN + "/order_query";
+    // remove operator_id from query not support this param
+    if (("operator_id" in data)){
+      delete data.operator_id;
+    }
     const resp = this.ksherRequest(url, "POST", data);
     return resp;
   }
@@ -212,6 +227,10 @@ class KsherPay {
 
   order_query_payout(data) {
     const url = this.DOMAIN + "/order_query_payout";
+    // remove operator_id from query not support this param
+    if (("operator_id" in data)){
+      delete data.operator_id;
+    }
     const resp = this.ksherRequest(url, "POST", data);
     return resp;
   }

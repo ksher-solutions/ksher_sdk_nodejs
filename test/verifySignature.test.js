@@ -94,6 +94,54 @@ describe('verifySignature', () => {
         expect(verifySignature).toBe(true);
       });
 
+      test('verifySignature_exampleRefund_queryDataResponse', () => {
+        const sdk = new KsherPay(appid, privatekey);
+        const exampleRefund_queryDataResponse = {
+            code: 0,
+            data: {
+                appid: "mch29217",
+                cash_fee: "48",
+                cash_fee_type: "CNY",
+                channel_order_no: "4200001823202304219631687916",
+                fee_type: "THB",
+                ksher_order_no: "70020230421121618509855",
+                mch_order_no: "2023042111163700",
+                nonce_str: "cffa8e4b4aa98b197cf3ae73968d9c87",
+                refund_count: "2",
+                refund_fee: "2",
+                refund_orders: [
+                    {
+                        channel_refund_no: "50202405672023042133267207073",
+                        ksher_refund_no: "70020230421122235500857",
+                        mch_refund_fee: 20,
+                        mch_refund_no: "refund1_2023042111163700",
+                        refund_state: "REFUNDSUCCESS",
+                        refund_time: "2023-04-21 11:22:45"
+                    },
+                    {
+                        channel_refund_no: "50202405672023042133267207108",
+                        ksher_refund_no: "70020230421122418652074",
+                        mch_refund_fee: 20,
+                        mch_refund_no: "refund2_2023042111163700",
+                        refund_state: "REFUNDSUCCESS",
+                        refund_time: "2023-04-21 11:24:28"
+                    }
+                ],
+                result: "SUCCESS",
+                time_end: "2023-04-21 11:22:45",
+                total_fee: 200
+            },
+            msg: "ok",
+            sign: "9b8042dc417cc245c83f56e8c34b719cc88ab4420eb1eec351256a31b5f856c948069120600339d89f4252eaf076c265e6be633be1c65cea5e80d49830cc89e5",
+            status_code: "",
+            status_msg: "",
+            time_stamp: "2023-04-21T12:26:56.375672+08:00",
+            version: "3.0.0"
+        };
+        const verifySignature = sdk.verifySignature(exampleRefund_queryDataResponse);
+        // console.log("verify Signature: ",verifySignature);
+        expect(verifySignature).toBe(true);
+      });
 
   test('verifySignature_exampleMerchant_info_DataResponse', () => {
     const sdk = new KsherPay(appid, privatekey);
