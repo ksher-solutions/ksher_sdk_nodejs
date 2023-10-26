@@ -1,6 +1,6 @@
 {
   "name": "@kshersolution/ksher",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Ksher Node.js Library at http://api.ksher.net",
   "main": "src/sdk.js",
   "directories": {

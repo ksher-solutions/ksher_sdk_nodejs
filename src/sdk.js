@@ -2,7 +2,7 @@ const fs = require("fs");
 const crypto = require("crypto");
 const axios = require("axios");
 const qs = require("qs");
-const path = require('path');
+const path = require("path");
 const Unity = require("./unity");
 const { error } = require("console");
 
@@ -12,19 +12,24 @@ class KsherPay {
 
   appid = "";
   privateKey = "";
-  publicKey = "";
+  publicKey = `-----BEGIN RSA PUBLIC KEY-----
+MEgCQQC+/eeTgrjeCPHmDS/5osWViFyIAryFRIr5canaYhz3Di3UNkT0sf6TkabF
+LvxPcM9JmEtj2O4TXNpgYATkE/sFAgMBAAE=
+-----END RSA PUBLIC KEY-----
+`;
 
-  constructor(appid, privatekeyPath = "", publicKeyPath = path.join(__dirname, '/ksher_pubkey.pem')) {
+  constructor(appid, privatekeyPath = "", publicKeyPath = "") {
     this.appid = appid;
 
-    if (Unity.isPrivateKeyPEMFormat(privatekeyPath)){
+    if (Unity.isPrivateKeyPEMFormat(privatekeyPath)) {
       this.privateKey = privatekeyPath;
-    }
-    else {
+    } else {
       this.privateKey = fs.readFileSync(privatekeyPath);
     }
-    
-    this.publicKey = fs.readFileSync(publicKeyPath);
+
+    if (publicKeyPath != "") {
+      this.publicKey = fs.readFileSync(publicKeyPath);
+    }
   }
 
   createSignature(data) {
@@ -40,25 +45,29 @@ class KsherPay {
     // console.log(signature);
     return signature;
   }
-  
+
   verifySignature(data) {
     var message = "";
-    if (("mobile" in data.data) && ("mch_id" in data.data) && ("account_type" in data.data) && ("business_mode" in data.data) && ("nonce_str" in data.data) ){
+    if (
+      "mobile" in data.data &&
+      "mch_id" in data.data &&
+      "account_type" in data.data &&
+      "business_mode" in data.data &&
+      "nonce_str" in data.data
+    ) {
       var merchant_info_verify_message = {
-        "mobile": data.data.mobile,
-        "mch_id": data.data.mch_id,
-        "account_type": data.data.account_type,
-        "business_mode": data.data.business_mode,
-        "nonce_str": data.data.nonce_str
-        };
+        mobile: data.data.mobile,
+        mch_id: data.data.mch_id,
+        account_type: data.data.account_type,
+        business_mode: data.data.business_mode,
+        nonce_str: data.data.nonce_str,
+      };
       // console.log(merchant_info_verify_message);
-       message = Unity.convertData2Str(merchant_info_verify_message);
-    }
-    else {
+      message = Unity.convertData2Str(merchant_info_verify_message);
+    } else {
       message = Unity.convertData2Str(data.data);
     }
 
-    
     const signature = data.sign;
     // console.log("verifySignature: ",signature)
     // console.log("text make sign: ",message)
@@ -124,7 +133,7 @@ class KsherPay {
           version: "",
         };
       }
-    } 
+    }
     return response.data;
   }
   gateway_pay(data) {
@@ -136,7 +145,7 @@ class KsherPay {
   gateway_order_query(data) {
     const url = this.GATEWAY_DOMAIN + "/gateway_order_query";
     // remove operator_id from query not support this param
-    if (("operator_id" in data)){
+    if ("operator_id" in data) {
       delete data.operator_id;
     }
     const resp = this.ksherRequest(url, "POST", data);
@@ -170,7 +179,7 @@ class KsherPay {
   order_query(data) {
     const url = this.DOMAIN + "/order_query";
     // remove operator_id from query not support this param
-    if (("operator_id" in data)){
+    if ("operator_id" in data) {
       delete data.operator_id;
     }
     const resp = this.ksherRequest(url, "POST", data);
@@ -228,7 +237,7 @@ class KsherPay {
   order_query_payout(data) {
     const url = this.DOMAIN + "/order_query_payout";
     // remove operator_id from query not support this param
-    if (("operator_id" in data)){
+    if ("operator_id" in data) {
       delete data.operator_id;
     }
     const resp = this.ksherRequest(url, "POST", data);
@@ -258,6 +267,5 @@ class KsherPay {
     const resp = this.ksherRequest(url, "POST", data);
     return resp;
   }
-
 }
 module.exports = KsherPay;

@@ -35,8 +35,8 @@ describe("Unity", () => {
   });
 
   test("isPrivateKeyPEMFormat", () => {
-    path = '/ksher_pubkey.pem';
-    const pathFormat = Unity.isPrivateKeyPEMFormat(path);
+    examplePath = '/ksher_pubkey.pem';
+    const pathFormat = Unity.isPrivateKeyPEMFormat(examplePath);
     expect(pathFormat).toEqual(false);
 
     privatekey = `-----BEGIN RSA PRIVATE KEY-----
@@ -52,4 +52,5 @@ IATE8U+GHPfygz0oBJwLfPaOAIdxup1x38UswEl/
     const privateKeyPEMFormat = Unity.isPrivateKeyPEMFormat(privatekey);
     expect(privateKeyPEMFormat).toEqual(true);
   });
+
 });
