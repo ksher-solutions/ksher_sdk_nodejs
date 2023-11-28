@@ -3,11 +3,15 @@
 [![Node.js Package](https://github.com/ksher-solutions/ksher_sdk_nodejs/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/ksher-solutions/ksher_sdk_nodejs/actions/workflows/npm-publish.yml)
 [![Version](https://img.shields.io/npm/v/@kshersolution/ksher)](https://www.npmjs.com/package/@kshersolution/ksher)
 
-Ksher payment SDK for NodeJs. Please check document at http://api.ksher.net
+This project is SDK for NodeJs. API Document Please check document at http://api.ksher.net
+
+You can check [npm SDK NodeJs](https://www.npmjs.com/package/@kshersolution/ksher) or visit [Github ksher_demo_nodejs repo](https://github.com/ksher-solutions/ksher_demo_nodejs) for check example create on NodeJs.
 
 Another SDK please check at
 
 Java: https://github.com/ksher-api/ksher-sdk/tree/master/java
+
+[![Version](https://img.shields.io/pypi/v/ksher)](https://pypi.org/project/ksher/)
 
 Python: https://github.com/ksher-solutions/ksher_sdk_python
 
@@ -17,7 +21,10 @@ PHP: https://github.com/ksher-api/ksher-sdk/tree/master/php
 
 Netcore: https://github.com/ksher-api/ksher-sdk/tree/master/netcore
 
+[![Version](https://img.shields.io/npm/v/@kshersolution/ksher)](https://www.npmjs.com/package/@kshersolution/ksher)
+
 NodeJs: https://github.com/ksher-solutions/ksher_sdk_nodejs
+
 
 ## How to install SDK
 
@@ -153,6 +160,134 @@ const native_payQueryData = {
   };
 
 await sdk.order_query(native_payQueryData)
+.then(response => {
+  console.log("body: ",response);
+});
+.catch(error => {
+  console.log(error);
+});
+```
+
+## B scan C
+
+### Create Payment order
+Please see https://api.ksher.net/KsherAPI/dev/apis/pos_b_scan_c.html for more information.
+```nodejs
+const mch_order_no = Date.now().toString();
+const quick_payRequestData = {
+          mch_order_no: mch_order_no,
+          total_fee: "100",
+          fee_type:"THB",
+          channel: "truemoney",
+          auth_code: "111111111111111111"
+      };
+
+await sdk.quick_pay(quick_payRequestData)
+.then(response => {
+  console.log("body: ",response);
+});
+.catch(error => {
+  console.log(error);
+});
+```
+### query status
+
+```nodejs
+const mch_order_no = "your create mch_order_no";
+const quick_payQueryData = {
+    mch_order_no: "2023-02-19-17-34-00",
+  };
+
+await sdk.order_query(quick_payQueryData)
+.then(response => {
+  console.log("body: ",response);
+});
+.catch(error => {
+  console.log(error);
+});
+```
+
+## Application
+
+### Create Payment order
+Please see https://api.ksher.net/KsherAPI/dev/apis/mobile_app.html for more information.
+```nodejs
+const mch_order_no = Date.now().toString();
+const app_payRequestData = {
+              mch_order_no: mch_order_no,
+              total_fee: "100",
+              fee_type:"THB",
+              channel: "wechat",
+              product_name: "some product",
+              refer_url: "http://www.google.com",
+              notify_url: "https://your_notify_url.com/notify",
+              mch_order_no: "3500114305",
+              local_total_fee: 10000,
+              channel_sub_appid: "wxxxxxxxxxxxx",
+          };
+
+await sdk.app_pay(app_payRequestData)
+.then(response => {
+  console.log("body: ",response);
+});
+.catch(error => {
+  console.log(error);
+});
+```
+### query status
+
+```nodejs
+const mch_order_no = "your create mch_order_no";
+const app_payRequestData = {
+    mch_order_no: "2023-02-19-17-34-00",
+  };
+
+await sdk.order_query(app_payRequestData)
+.then(response => {
+  console.log("body: ",response);
+});
+.catch(error => {
+  console.log(error);
+});
+```
+
+## Mini Program
+
+### Create Payment order
+Please see https://api.ksher.net/KsherAPI/dev/apis/wechat_mini_pro.html for more information.
+```nodejs
+const mch_order_no = Date.now().toString();
+const mini_program_payRequestData = {
+              mch_order_no: mch_order_no,
+              total_fee: "100",
+              fee_type:"THB",
+              channel: "wechat",
+              product_name: "some product",
+              refer_url: "http://www.google.com",
+              notify_url: "https://your_notify_url.com/notify",
+              mch_order_no: "3500114305",
+              local_total_fee: 10000,
+              channel_sub_appid: "wx8888888888888888",
+              sub_openid: "oUpF8uMuAJO_M2pxb1Q9zNjWeS6o",
+          };
+
+await sdk.mini_program_pay(mini_program_payRequestData)
+.then(response => {
+  console.log("body: ",response);
+});
+.catch(error => {
+  console.log(error);
+});
+```
+### query status
+
+```nodejs
+const mch_order_no = "your create mch_order_no";
+const app_payRequestData = {
+    mch_order_no: "2023-02-19-17-34-00",
+  };
+
+await sdk.order_query(app_payRequestData)
 .then(response => {
   console.log("body: ",response);
 });
