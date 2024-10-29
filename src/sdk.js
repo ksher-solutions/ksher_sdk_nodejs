@@ -12,14 +12,34 @@ class KsherPay {
 
   appid = "";
   privateKey = "";
+  timeout = 0;
   publicKey = `-----BEGIN RSA PUBLIC KEY-----
 MEgCQQC+/eeTgrjeCPHmDS/5osWViFyIAryFRIr5canaYhz3Di3UNkT0sf6TkabF
 LvxPcM9JmEtj2O4TXNpgYATkE/sFAgMBAAE=
 -----END RSA PUBLIC KEY-----
 `;
 
-  constructor(appid, privatekeyPath = "", publicKeyPath = "") {
+  /**
+   * @param {string} appid - appid
+   * @param {string} privatekeyPath - Path to private key or private key text.
+   * @param {string} publicKeyPath - (optional) Path to public key or public key text.
+   * @param {number} timeout - (optional) Timeout for API call in milliseconds (0 = no timeout, e.g., 10000 = 10 seconds)
+   */
+  constructor(appid, privatekeyPath = "", publicKeyPath = "", timeout = 0) {
     this.appid = appid;
+
+    // if (typeof appid !== "string") {
+    //   throw new TypeError("appid must be a string");
+    // }
+    // if (typeof privatekeyPath !== "string") {
+    //   throw new TypeError("privatekeyPath must be a string");
+    // }
+    // if (typeof publicKeyPath !== "string") {
+    //   throw new TypeError("publicKeyPath must be a string");
+    // }
+    // if (typeof timeout !== "number") {
+    //   throw new TypeError("timeout must be a number");
+    // }
 
     if (Unity.isPrivateKeyPEMFormat(privatekeyPath)) {
       this.privateKey = privatekeyPath;
@@ -29,6 +49,9 @@ LvxPcM9JmEtj2O4TXNpgYATkE/sFAgMBAAE=
 
     if (publicKeyPath != "") {
       this.publicKey = fs.readFileSync(publicKeyPath);
+    }
+    if (this.timeout != 0) {
+      this.timeout = timeout;
     }
   }
 
@@ -101,7 +124,7 @@ LvxPcM9JmEtj2O4TXNpgYATkE/sFAgMBAAE=
 
     var config = {
       method: method,
-      timeout: 10000,
+      timeout: this.timeout,
       url: url,
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
