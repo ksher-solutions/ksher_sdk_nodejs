@@ -211,7 +211,7 @@ LvxPcM9JmEtj2O4TXNpgYATkE/sFAgMBAAE=
       data.notify_url=decodeURIComponent(data.notify_url)
     }
     if ("product" in data) {
-      data.notify_url=decodeURIComponent(data.product)
+      data.product=decodeURIComponent(data.product)
     }
     const resp = this.ksherRequest(url, "POST", data);
     return resp;
@@ -233,7 +233,7 @@ LvxPcM9JmEtj2O4TXNpgYATkE/sFAgMBAAE=
       data.notify_url=decodeURIComponent(data.notify_url)
     }
     if ("product" in data) {
-      data.notify_url=decodeURIComponent(data.product)
+      data.product=decodeURIComponent(data.product)
     }
     const resp = this.ksherRequest(url, "POST", data);
     return resp;
@@ -251,7 +251,7 @@ LvxPcM9JmEtj2O4TXNpgYATkE/sFAgMBAAE=
       data.refer_url=decodeURIComponent(data.refer_url)
     }
     if ("product" in data) {
-      data.notify_url=decodeURIComponent(data.product)
+      data.product=decodeURIComponent(data.product)
     }
     const resp = this.ksherRequest(url, "POST", data);
     return resp;
@@ -263,7 +263,7 @@ LvxPcM9JmEtj2O4TXNpgYATkE/sFAgMBAAE=
       data.notify_url=decodeURIComponent(data.notify_url)
     }
     if ("product" in data) {
-      data.notify_url=decodeURIComponent(data.product)
+      data.product=decodeURIComponent(data.product)
     }
     const resp = this.ksherRequest(url, "POST", data);
     return resp;
