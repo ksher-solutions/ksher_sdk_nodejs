@@ -162,16 +162,18 @@ LvxPcM9JmEtj2O4TXNpgYATkE/sFAgMBAAE=
   gateway_pay(data) {
     const url = this.GATEWAY_DOMAIN + "/gateway_pay";
     if ("product_name" in data) {
-      data.product_name=decodeURIComponent(data.product_name)
+      data.product_name = decodeURIComponent(data.product_name);
     }
     if ("mch_redirect_url" in data) {
-      data.mch_redirect_url=decodeURIComponent(data.mch_redirect_url)
+      data.mch_redirect_url = decodeURIComponent(data.mch_redirect_url);
     }
     if ("mch_redirect_url_fail" in data) {
-      data.mch_redirect_url_fail=decodeURIComponent(data.mch_redirect_url_fail)
+      data.mch_redirect_url_fail = decodeURIComponent(
+        data.mch_redirect_url_fail
+      );
     }
     if ("mch_notify_url" in data) {
-      data.mch_notify_url=decodeURIComponent(data.mch_notify_url)
+      data.mch_notify_url = decodeURIComponent(data.mch_notify_url);
     }
     const resp = this.ksherRequest(url, "POST", data);
     return resp;
@@ -208,10 +210,10 @@ LvxPcM9JmEtj2O4TXNpgYATkE/sFAgMBAAE=
   native_pay(data) {
     const url = this.DOMAIN + "/native_pay";
     if ("notify_url" in data) {
-      data.notify_url=decodeURIComponent(data.notify_url)
+      data.notify_url = decodeURIComponent(data.notify_url);
     }
     if ("product" in data) {
-      data.product=decodeURIComponent(data.product)
+      data.product = decodeURIComponent(data.product);
     }
     const resp = this.ksherRequest(url, "POST", data);
     return resp;
@@ -230,10 +232,10 @@ LvxPcM9JmEtj2O4TXNpgYATkE/sFAgMBAAE=
   quick_pay(data) {
     const url = this.DOMAIN + "/quick_pay";
     if ("notify_url" in data) {
-      data.notify_url=decodeURIComponent(data.notify_url)
+      data.notify_url = decodeURIComponent(data.notify_url);
     }
     if ("product" in data) {
-      data.product=decodeURIComponent(data.product)
+      data.product = decodeURIComponent(data.product);
     }
     const resp = this.ksherRequest(url, "POST", data);
     return resp;
@@ -242,16 +244,16 @@ LvxPcM9JmEtj2O4TXNpgYATkE/sFAgMBAAE=
   app_pay(data) {
     const url = this.DOMAIN + "/app_pay";
     if ("notify_url" in data) {
-      data.notify_url=decodeURIComponent(data.notify_url)
+      data.notify_url = decodeURIComponent(data.notify_url);
     }
     if ("redirect_url" in data) {
-      data.redirect_url=decodeURIComponent(data.redirect_url)
+      data.redirect_url = decodeURIComponent(data.redirect_url);
     }
     if ("refer_url" in data) {
-      data.refer_url=decodeURIComponent(data.refer_url)
+      data.refer_url = decodeURIComponent(data.refer_url);
     }
     if ("product" in data) {
-      data.product=decodeURIComponent(data.product)
+      data.product = decodeURIComponent(data.product);
     }
     const resp = this.ksherRequest(url, "POST", data);
     return resp;
@@ -260,10 +262,10 @@ LvxPcM9JmEtj2O4TXNpgYATkE/sFAgMBAAE=
   mini_program_pay(data) {
     const url = this.DOMAIN + "/mini_program_pay";
     if ("notify_url" in data) {
-      data.notify_url=decodeURIComponent(data.notify_url)
+      data.notify_url = decodeURIComponent(data.notify_url);
     }
     if ("product" in data) {
-      data.product=decodeURIComponent(data.product)
+      data.product = decodeURIComponent(data.product);
     }
     const resp = this.ksherRequest(url, "POST", data);
     return resp;
@@ -272,13 +274,13 @@ LvxPcM9JmEtj2O4TXNpgYATkE/sFAgMBAAE=
   wap_pay(data) {
     const url = this.DOMAIN + "/wap_pay";
     if ("notify_url" in data) {
-      data.notify_url=decodeURIComponent(data.notify_url)
+      data.notify_url = decodeURIComponent(data.notify_url);
     }
     if ("redirect_url" in data) {
-      data.redirect_url=decodeURIComponent(data.redirect_url)
+      data.redirect_url = decodeURIComponent(data.redirect_url);
     }
     if ("refer_url" in data) {
-      data.refer_url=decodeURIComponent(data.refer_url)
+      data.refer_url = decodeURIComponent(data.refer_url);
     }
     const resp = this.ksherRequest(url, "POST", data);
     return resp;
@@ -287,10 +289,10 @@ LvxPcM9JmEtj2O4TXNpgYATkE/sFAgMBAAE=
   jsapi_pay(data) {
     const url = this.DOMAIN + "/jsapi_pay";
     if ("notify_url" in data) {
-      data.notify_url=decodeURIComponent(data.notify_url)
+      data.notify_url = decodeURIComponent(data.notify_url);
     }
     if ("redirect_url" in data) {
-      data.redirect_url=decodeURIComponent(data.redirect_url)
+      data.redirect_url = decodeURIComponent(data.redirect_url);
     }
     const resp = this.ksherRequest(url, "POST", data);
     return resp;
