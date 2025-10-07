@@ -13,11 +13,12 @@ class KsherPay {
   appid = "";
   privateKey = "";
   timeout = 0;
-  publicKey = `-----BEGIN RSA PUBLIC KEY-----
+  _publicKey = `-----BEGIN RSA PUBLIC KEY-----
 MEgCQQC+/eeTgrjeCPHmDS/5osWViFyIAryFRIr5canaYhz3Di3UNkT0sf6TkabF
 LvxPcM9JmEtj2O4TXNpgYATkE/sFAgMBAAE=
 -----END RSA PUBLIC KEY-----
 `;
+  ksherSignVersion = "";
 
   /**
    * @param {string} appid - appid
@@ -48,13 +49,36 @@ LvxPcM9JmEtj2O4TXNpgYATkE/sFAgMBAAE=
     }
 
     if (publicKeyPath != "") {
-      this.publicKey = fs.readFileSync(publicKeyPath);
+      this._publicKey = fs.readFileSync(publicKeyPath);
     }
+
     if (this.timeout != 0) {
       this.timeout = timeout;
     }
-  }
 
+  }
+  set ksherSignVersion(value) {
+    this._ksherSignVersion = value;
+
+    // auto change publicKey when version changes
+    if (value === "V2") {
+      this._publicKey = `-----BEGIN RSA PUBLIC KEY-----
+MIIBCgKCAQEA3WvHCgE/NVHjWG+IzjB2OeWFwjQJFPEi/O1AFaiLdsyXgQ8sROIM
+pp7iyhbubKf+aNFdJx4+hwbVSd3BAUUdKQJyovdqjF0DLLrk0QLUZAnEX7lylugt
+VL+eCKRhI8UzXxEFMt8vrhw1p9oaxBK/0mXcqUGvtM7hNAZo9jdfB/l+gAf6X3jR
+1gj7lsz190A+FfDwzIhCWK8FcdroW7A00KAcCdAadzNdn16UNj4G0kGXhAMf+175
+gTFuVuiZx1oSaInrOgnl05qqixTbrdm/BqwbFWGGYX1B6yKM0/Vus3DqkwgXr1q+
+bWPtM3sDOQuQmkbo/jQbkMv+Ab8ij2f1gwIDAQAB
+-----END RSA PUBLIC KEY-----
+`;
+    } else {
+      this._publicKey = `-----BEGIN RSA PUBLIC KEY-----
+MEgCQQC+/eeTgrjeCPHmDS/5osWViFyIAryFRIr5canaYhz3Di3UNkT0sf6TkabF
+LvxPcM9JmEtj2O4TXNpgYATkE/sFAgMBAAE=
+-----END RSA PUBLIC KEY-----
+`;
+    }
+  }
   createSignature(data) {
     const keyvalue = Unity.convertData2Str(data);
     // console.log("string make signature: ", keyvalue)
@@ -98,7 +122,7 @@ LvxPcM9JmEtj2O4TXNpgYATkE/sFAgMBAAE=
     verifier.write(message);
     verifier.end();
 
-    const isVerified = verifier.verify(this.publicKey, signature, "hex");
+    const isVerified = verifier.verify(this._publicKey, signature, "hex");
 
     // console.log(isVerified);
     return isVerified;
@@ -118,17 +142,20 @@ LvxPcM9JmEtj2O4TXNpgYATkE/sFAgMBAAE=
     var dataWithHeader = this.addRequestHeader(data);
     var signature = this.createSignature(dataWithHeader);
     var bodyWithSign = { ...dataWithHeader, ...{ sign: signature } };
-
     var strdata = qs.stringify(bodyWithSign);
+
+    var headers = { "Content-Type": "application/x-www-form-urlencoded" };
+    if (this.ksherSignVersion != "")
+      headers = { ...headers, ...{ "ksher-sign-version": "V2" } };
+    // console.log("headers request: ", headers);
     // console.log("strdata:", strdata);
+    // console.log("body request: ", bodyWithSign);
 
     var config = {
       method: method,
       timeout: this.timeout,
       url: url,
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
+      headers: headers,
       data: strdata,
     };
     // console.log("config: ", config);
@@ -139,24 +166,28 @@ LvxPcM9JmEtj2O4TXNpgYATkE/sFAgMBAAE=
     // console.log("response.headers: ", response.headers);
     // console.log("response.config: ", response.config);
     const jsonData = JSON.stringify(response.data);
-    if (response.data.code == 0) {
-      if (this.verifySignature(response.data) == false) {
-        return {
-          code: 0,
-          data: {
-            err_code: "VERIFY_KSHER_SIGN_FAIL",
-            err_msg: "verify signature failed",
-            result: "FAIL",
-          },
-          msg: "ok",
-          sign: "",
-          status_code: "",
-          status_msg: "",
-          time_stamp: "",
-          version: "",
-        };
-      }
+
+    if (response.status != 200) {
+      return response.data;
     }
+
+    if (response.data.code === 0 && !this.verifySignature(response.data)) {
+      return {
+        code: 0,
+        data: {
+          err_code: "VERIFY_KSHER_SIGN_FAIL",
+          err_msg: "verify signature failed",
+          result: "FAIL",
+        },
+        msg: "ok",
+        sign: "",
+        status_code: "",
+        status_msg: "",
+        time_stamp: "",
+        version: "",
+      };
+    }
+
     return response.data;
   }
   gateway_pay(data) {
