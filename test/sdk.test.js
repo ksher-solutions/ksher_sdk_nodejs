@@ -1,10 +1,17 @@
 jest.setTimeout(30000);
 const KsherPay = require("../src/sdk");
-const config = require('../test/config')
-appid = config.appid;
-privatekey = config.privatekey;
+require('dotenv').config()
+appid = process.env.APPID;
+privatekey = process.env.PRIVATE_KEY;
 
 describe("SDK", () => {
+  test('reads env vars', () => {
+  console.log('APPID =', process.env.APPID);
+  console.log('PRIVATE_KEY =', process.env.PRIVATE_KEY);
+  expect(process.env.APPID).not.toBe("");
+  expect(process.env.PRIVATE_KEY).not.toBe("");
+});
+
   test("create", () => {
     const sdk = new KsherPay(appid, privatekey);
     
